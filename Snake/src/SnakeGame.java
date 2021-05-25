@@ -26,7 +26,7 @@ public class SnakeGame extends Canvas implements Runnable, KeyListener{
 	private int ticks = 0; //game runs
 	
 	private boolean running = false;
-	private boolean right = false, left = false, up = false, down = false;
+	private boolean right = true, left = false, up = false, down = false;
 	
 
 	

@@ -6,7 +6,7 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
 import java.util.Arrays;
-
+//snakeGame
 public class SnakeGame extends Canvas implements Runnable, KeyListener{
 	SplashScreen menu = new SplashScreen();  
 	/**
@@ -28,7 +28,7 @@ public class SnakeGame extends Canvas implements Runnable, KeyListener{
 	private boolean running = false;
 	private boolean right = false, left = false, up = false, down = false;
 	
-
+	//b
 	
 	public SnakeGame() {
 		new Runner(WIDTH, HEIGHT, "Snake!", this);

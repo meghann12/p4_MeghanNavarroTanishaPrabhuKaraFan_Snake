@@ -8,7 +8,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class SnakeGame extends Canvas implements Runnable, KeyListener{
-	SplashScreen menu = new SplashScreen();  
+	SplashScreen menu = new SplashScreen(); 
+	public static void main(String args[]) { 
+		new SnakeGame();
+		
+	}
 	/**
 	 * 
 	 */
@@ -118,13 +122,10 @@ public class SnakeGame extends Canvas implements Runnable, KeyListener{
 	}
 	*/
 	
-	public static void main(String args[]) { 
-		new SnakeGame();
-		
-	}
+	boolean first = true;
 	public void paint(Graphics g) {
 		
-		g.clearRect(0, 0, WIDTH, HEIGHT);
+		
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		
@@ -140,7 +141,10 @@ public class SnakeGame extends Canvas implements Runnable, KeyListener{
 		for(int i = 0; i < snake.size(); i ++) {
 			snake.get(i).draw(g);
 		}
-		menu.paint(g);
+		if(first) {
+			menu.paint(g);
+		}
+	
 		
 	}
 
@@ -154,7 +158,7 @@ public class SnakeGame extends Canvas implements Runnable, KeyListener{
 		// TODO Auto-generated method stub
 		/* call the helper methods for the Board object data*/
 		System.out.println(arg0.getKeyCode());
-		
+		first = false;
 		/* you can add tester code to invoke helper methods */
 		//int[] result = data.getCol(data.getBoard(),0);
 		//System.out.println(Arrays.toString(result));

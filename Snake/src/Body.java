@@ -23,7 +23,7 @@ public class Body {
 		g.fillRect(x*width, y*height, width, height);
 		
 	}
-
+//testing adding comment
 	public int getX() {
 		return x;
 	}

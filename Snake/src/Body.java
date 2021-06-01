@@ -13,7 +13,9 @@ public class Body {
 		height = tileSize;
 	}
 	
-	
+	public void tick(){
+		
+	}
 	
 	public void draw(Graphics g) {
 		g.setColor(Color.PINK);

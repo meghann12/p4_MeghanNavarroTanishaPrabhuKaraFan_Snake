@@ -1,6 +1,7 @@
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
@@ -28,10 +29,17 @@ public class SnakeGame extends Canvas implements Runnable, KeyListener{
 	private boolean running = false;
 	private boolean right = false, left = false, up = false, down = false;
 	
+	
+	
 	//b
 	
 	public SnakeGame() {
+		
 		new Runner(WIDTH, HEIGHT, "Snake!", this);
+		
+		
+		setFocusable(true);
+		addKeyListener(this);
 		
 		snake = new ArrayList<Body>();
 		
@@ -40,15 +48,18 @@ public class SnakeGame extends Canvas implements Runnable, KeyListener{
 	}
 	
 	public void start() {
+		
 		//this is going start up our thread
 		thread = new Thread(this);
 		thread.start();
+		menu.paint();
 		//initializing thread as a new thread
 		//so that thread can be ran
 		running = true;
 	}
 	public void stop() {
 		//try and catch is like an if-statement
+		int score = (snake.size() - 3) *10;
 		
 		try {
 			thread.join(); //kills off the thread, stops it
@@ -56,19 +67,14 @@ public class SnakeGame extends Canvas implements Runnable, KeyListener{
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+		
 	}
 	
-	public void run() {
-		//game loop needed or the game can't update itself
-		//lastTime, now and ns are used to calculate delta
-		//timer is updated based on the frames per second
-		while(running) {
-			tick();
-			repaint();
-		}
-	}
+	
 	
 	public void tick() {
+		
 		if(snake.size() == 0) {
 			b = new Body(x, y, 10);
 			snake.add(b);
@@ -87,9 +93,6 @@ public class SnakeGame extends Canvas implements Runnable, KeyListener{
 			
 			
 			
-			
-			
-			
 			ticks = 0;
 			
 			b = new Body(x, y, 10);
@@ -100,7 +103,6 @@ public class SnakeGame extends Canvas implements Runnable, KeyListener{
 			}
 		}
 	}
-	
 	
 	
 	/*private void render() {
@@ -121,89 +123,144 @@ public class SnakeGame extends Canvas implements Runnable, KeyListener{
 	public static void main(String args[]) { 
 		new SnakeGame();
 		
+		
 	}
+	
+	boolean first = false;
+	
 	public void paint(Graphics g) {
 		
+		
+	
 		g.clearRect(0, 0, WIDTH, HEIGHT);
+		
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, WIDTH, HEIGHT);
+		
+		
+		
 		
 		for(int i = 0; i < WIDTH/10; i++) {
 			g.drawLine(i  * 10,  0,i * 10  , HEIGHT);
 			
 		}
 		
+		
 		for(int i = 0; i < HEIGHT/10; i++) {
 			g.drawLine(i * 10,  0, HEIGHT , i*10);
 			
 		}
-		for(int i = 0; i < snake.size(); i ++) {
+		for(int i = 0; i < snake.size(); i++) {
 			snake.get(i).draw(g);
 		}
-		menu.paint(g);
 		
-	}
-
-	@Override
-	public void keyTyped(KeyEvent arg0) {
-				
-	}
-
-	@Override
-	public void keyPressed(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		/* call the helper methods for the Board object data*/
-		System.out.println(arg0.getKeyCode());
-		
-		/* you can add tester code to invoke helper methods */
-		//int[] result = data.getCol(data.getBoard(),0);
-		//System.out.println(Arrays.toString(result));
-		
-		switch(arg0.getKeyCode()) {
-			
-			//slide right
-			case 39:
-				//data.right();
-				//data.combineRight();
-				menu.disappear();
-				
-				break;
-				
-				
-			case 37: //left
-				//data.slideLeft();
-				//data.combineLeft();
-				menu.disappear();
-
-				
-				break;
-			case 38: //up
-				//what to do if keyCode is 38?
-				//data.slideUp();
-				//data.combineUp();
-				menu.disappear();
-
-				
-				break;
-			case 40: //down
-				//data.slideDown();
-				//data.combineDown();
-				menu.disappear();
-
-				break;
-				
+		first = true;
+		if(first == true) {
+			menu.paint();
 		}
+		menu.paint();
 		
-		//data.populateOne();
-		//update();
-		
-		
-		/** reset the game if all tiles are populated **/
-		//if(data.gameOver()) {
-		//	data = new Board();
-			//update();
-		//}
 	}
+	
+	
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+				
+	}
+	
+	public void run() {
+		//game loop needed or the game can't update itself
+		//lastTime, now and ns are used to calculate delta
+		//timer is updated based on the frames per second
+		while(running) {
+			
+			tick();	
+			repaint();
+			
+		}
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+		
+	}
+	
+
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+		first = false;
+		try {
+			int key = e.getKeyCode();
+			
+			if((key == KeyEvent.VK_LEFT) && (!right)) {
+				left = true;
+				up = false;
+				down = false;
+				
+			}
+			if((key == KeyEvent.VK_RIGHT && (!left))) {
+				right = true;
+				up = false;
+				down = false;
+				
+			}
+			if((key == KeyEvent.VK_UP) && (!down)) {
+				up = true;
+				right = false;
+				left = false;
+				
+			}
+			if((key == KeyEvent.VK_DOWN) && (!up)) {
+				left = false;
+				down = true;
+				right = false;
+				
+			}
+		}catch(Exception e2) {
+			int key = e.getKeyCode();
+			
+			if((key == KeyEvent.VK_LEFT) && (!right)) {
+				left = true;
+				up = false;
+				down = false;
+				
+			}
+			if((key == KeyEvent.VK_RIGHT && (!left))) {
+				right = true;
+				up = false;
+				down = false;
+				
+			}
+			if((key == KeyEvent.VK_UP) && (!down)) {
+				up = true;
+				right = false;
+				left = false;
+				
+			}
+			if((key == KeyEvent.VK_DOWN) && (!up)) {
+				down = true;
+				right = false;
+				left = false;
+				
+			}
+		}
+			
+	}
+
+
+
+	
+	
+	
+
+	
+	
+	/** reset the game if all tiles are populated **/
+
+	
 
 
 	

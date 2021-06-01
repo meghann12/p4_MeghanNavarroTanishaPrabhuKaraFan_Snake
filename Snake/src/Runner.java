@@ -48,7 +48,10 @@ public class Runner extends Canvas{
 		//sets frame to visible to we can see it
 		frame.setVisible(true);
 		//runs our game's start method
+		
 		game.start();
+		
+		
 	
 	}
 	

@@ -5,6 +5,7 @@ public class Body {
 	
 	private int x, y, width, height;
 	
+//testing new	
 	
 	public Body(int x, int y, int tileSize) {
 		this.x = x;

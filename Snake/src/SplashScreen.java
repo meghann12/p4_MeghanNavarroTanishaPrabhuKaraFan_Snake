@@ -1,9 +1,14 @@
 import java.awt.Graphics;
+
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.net.URL;
+
+
+
+
 
 public class SplashScreen {
 	private int x = 0,y = 0;
@@ -22,11 +27,12 @@ public class SplashScreen {
 		
 	}
 	public void disappear() {
-		x = 2000000000; 
-		y = 200000000;
-		init(x,y);
+		
+		this.x = 2000000000; 
+		this.y = 2000000000;
 		
 	}
+	
 	
 	
 	
@@ -62,6 +68,16 @@ public class SplashScreen {
 	public void paint() {
 		// TODO Auto-generated method stub
 		
+		
+		
 	}
+	
+	public void setX(int x) {
+		this.x = x;
+	}
+	public void setY(int y) {
+		this.y = y;
+	}
+	
 }
 

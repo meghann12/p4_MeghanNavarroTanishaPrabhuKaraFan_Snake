@@ -181,10 +181,7 @@ public class SnakeGame extends Canvas implements Runnable, KeyListener{
 		}
 	}
 	
-	public void actionPerformed(ActionEvent e) {
 		
-	}
-	
 
 
 	@Override

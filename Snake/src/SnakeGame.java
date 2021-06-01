@@ -1,12 +1,20 @@
 import java.awt.Canvas;
+
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Timer;
+
+import javax.swing.ImageIcon;
+
+import java.util.Random;
 //snakeGame
 public class SnakeGame extends Canvas implements Runnable, KeyListener{
 	SplashScreen menu = new SplashScreen();  
@@ -15,6 +23,7 @@ public class SnakeGame extends Canvas implements Runnable, KeyListener{
 	 */
 	private static final long serialVersionUID = 1L;
 	public static final int WIDTH = 800, HEIGHT = 800;
+	static final int DELAY = 75;
 	/**
 	 * 
 	 */
@@ -28,35 +37,60 @@ public class SnakeGame extends Canvas implements Runnable, KeyListener{
 	
 	private boolean running = false;
 	private boolean right = false, left = false, up = false, down = false;
-	
-	
+	private boolean first = false;
+	private Random r;
+	private Apple apple;
+	private ArrayList<Apple> apples;
 	
 	//b
+public SnakeGame() {
 	
-	public SnakeGame() {
-		
+		setPreferredSize(new Dimension(WIDTH, HEIGHT));
+	
+		if(first == false) {
+			menu.paint();
+		}
+		first = false;
+
 		new Runner(WIDTH, HEIGHT, "Snake!", this);
+		
 		
 		
 		setFocusable(true);
 		addKeyListener(this);
 		
 		snake = new ArrayList<Body>();
+		apples = new ArrayList<Apple>();
 		
+		r= new Random();
 		start();
+		Image splash = new ImageIcon("IMG_3064").getImage();
 		
 	}
-	
 	public void start() {
-		
+		first = false;
+		newApple();
 		//this is going start up our thread
 		thread = new Thread(this);
 		thread.start();
 		menu.paint();
+		Image splash = new ImageIcon("IMG_3064").getImage();
+		
 		//initializing thread as a new thread
 		//so that thread can be ran
 		running = true;
+		
+		
+		
 	}
+	
+	
+	
+	public void newApple() {
+		
+	}
+	
+	
 	public void stop() {
 		//try and catch is like an if-statement
 		int score = (snake.size() - 3) *10;
@@ -67,6 +101,8 @@ public class SnakeGame extends Canvas implements Runnable, KeyListener{
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+		
 		
 		
 	}
@@ -102,7 +138,24 @@ public class SnakeGame extends Canvas implements Runnable, KeyListener{
 				snake.remove(0);
 			}
 		}
+		
+		first = true;
+		
+		if(apples.size() == 0) {
+			int x = r.nextInt(40);
+			int y = r.nextInt(40);
+			
+			apple = new Apple(x, y, 10);
+			apples.add(apple);
+		}
+		if(first == false) {
+			menu.paint();
+			Image splash = new ImageIcon("IMG_3064").getImage();
+			
+		}
+		
 	}
+
 	
 	
 	/*private void render() {
@@ -126,12 +179,12 @@ public class SnakeGame extends Canvas implements Runnable, KeyListener{
 		
 	}
 	
-	boolean first = false;
-	
+	@Override
 	public void paint(Graphics g) {
 		
+		Image splash = new ImageIcon("IMG_3064").getImage();
+		g.drawImage(splash, 0, 0, this);
 		
-	
 		g.clearRect(0, 0, WIDTH, HEIGHT);
 		
 		g.setColor(Color.BLACK);
@@ -154,11 +207,12 @@ public class SnakeGame extends Canvas implements Runnable, KeyListener{
 			snake.get(i).draw(g);
 		}
 		
-		first = true;
-		if(first == true) {
-			menu.paint();
+		
+		for(int i = 0; i < apples.size(); i++) {
+			apples.get(i).draw(g);
 		}
-		menu.paint();
+		first = false;
+		
 		
 	}
 	
@@ -181,14 +235,17 @@ public class SnakeGame extends Canvas implements Runnable, KeyListener{
 		}
 	}
 	
+	public void actionPerformed(ActionEvent e) {
 		
+	}
+
 
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
-		first = false;
+		
 		try {
 			int key = e.getKeyCode();
 			
@@ -196,25 +253,28 @@ public class SnakeGame extends Canvas implements Runnable, KeyListener{
 				left = true;
 				up = false;
 				down = false;
+				first = true;
 				
 			}
 			if((key == KeyEvent.VK_RIGHT && (!left))) {
 				right = true;
 				up = false;
 				down = false;
+				first = true;
 				
 			}
 			if((key == KeyEvent.VK_UP) && (!down)) {
 				up = true;
 				right = false;
 				left = false;
+				first = true;
 				
 			}
 			if((key == KeyEvent.VK_DOWN) && (!up)) {
 				left = false;
 				down = true;
 				right = false;
-				
+				first = true;
 			}
 		}catch(Exception e2) {
 			int key = e.getKeyCode();
@@ -223,24 +283,28 @@ public class SnakeGame extends Canvas implements Runnable, KeyListener{
 				left = true;
 				up = false;
 				down = false;
+				first = true;
 				
 			}
 			if((key == KeyEvent.VK_RIGHT && (!left))) {
 				right = true;
 				up = false;
 				down = false;
+				first = true;
 				
 			}
 			if((key == KeyEvent.VK_UP) && (!down)) {
 				up = true;
 				right = false;
 				left = false;
+				first = true;
 				
 			}
 			if((key == KeyEvent.VK_DOWN) && (!up)) {
 				down = true;
 				right = false;
 				left = false;
+				first = true;
 				
 			}
 		}

@@ -10,7 +10,7 @@ public class Apple {
 		width = tileSize;
 		height = tileSize;
 	}
-	
+
 	public void tick() {
 		
 	}

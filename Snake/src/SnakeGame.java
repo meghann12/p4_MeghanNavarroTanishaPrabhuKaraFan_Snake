@@ -178,6 +178,10 @@ public SnakeGame() {
 			}
 		}
 		
+		if() {
+			
+		}
+		
 		
 		
 		if(first == false) {

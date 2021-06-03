@@ -50,6 +50,7 @@ public class Runner extends Canvas{
 		//runs our game's start method
 		
 		game.start();
+		
 		menu.paint();
 		
 		

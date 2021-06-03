@@ -2,6 +2,8 @@ import java.awt.Canvas;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -72,6 +74,7 @@ public SnakeGame() {
 		newApple();
 		//this is going start up our thread
 		thread = new Thread(this);
+		Thread t = new Thread(this);
 		thread.start();
 		menu.paint();
 		Image splash = new ImageIcon("IMG_3064").getImage();
@@ -107,6 +110,15 @@ public SnakeGame() {
 		
 	}
 	
+	public void gameOver(Graphics g) {
+		g.setColor(Color.red);;
+		g.setFont( new Font("Ink Free,", Font.BOLD, 75));
+		FontMetrics metrics = getFontMetrics(g.getFont());
+		g.drawString("Game Over", (WIDTH - metrics.stringWidth("Game Over"))/2, HEIGHT);
+		
+		
+	}
+	
 	
 	
 	public void tick() {
@@ -120,30 +132,30 @@ public SnakeGame() {
 		
 		
 		ticks++;
-		if(ticks > 111000) { //ticks changes the speed
+		if(ticks > 10000) { //ticks changes the speed
 			if(right) x++;
 			if(left) x--;
 			if(up) y--;
 			if(down) y++;
 			
 			if(x > 52) { //boundaries
-				x = 48;
-				snake.clear();
+				stop();
+				
 			}
 			
-			if(x < 3) {
-				x = 5;
-				snake.clear();
+			if(x < 1) {
+				stop();
+				
 			}
 			
 			if(y > 52) {
-				y = 48;	
-				snake.clear();
+				stop();
+				
 			}
 
-			if(y < 3) {
-				y = 5;	
-				snake.clear();
+			if(y < 1) {
+				stop();
+				
 			}
 			
 			
@@ -172,15 +184,13 @@ public SnakeGame() {
 		
 		for(int i = 0; i < apples.size(); i++) {
 			if(x == apples.get(i).getx() && y == apples.get(i).gety()) {
-				size++;
+				size+=3;
 				apples.remove(i);
 				i++;
 			}
 		}
 		
-		if() {
-			
-		}
+		
 		
 		
 		
@@ -193,8 +203,8 @@ public SnakeGame() {
 		
 		
 	}
-		
-		
+	
+ 		
 	
 
 	
@@ -223,6 +233,7 @@ public SnakeGame() {
 	@Override
 	public void paint(Graphics g) {
 		
+		if(running) {
 		Image splash = new ImageIcon("IMG_3064").getImage();
 		g.drawImage(splash, 0, 0, this);
 		
@@ -253,7 +264,10 @@ public SnakeGame() {
 			apples.get(i).draw(g);
 		}
 		first = false;
-		
+		}
+		else {
+			gameOver(g);
+		}
 		
 		
 	}

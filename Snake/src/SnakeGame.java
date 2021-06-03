@@ -31,7 +31,7 @@ public class SnakeGame extends Canvas implements Runnable, KeyListener{
 	private Body b;
 	private ArrayList<Body> snake;
 	
-	private int x = 10, y = 10, size = 5;
+	private int x = 15, y = 15, size = 5;
 	
 	private int ticks = 0; //game runs
 	
@@ -93,7 +93,7 @@ public SnakeGame() {
 	
 	public void stop() {
 		//try and catch is like an if-statement
-		int score = (snake.size() - 3) *10;
+		int score = (snake.size() - 3) *15;
 		
 		try {
 			thread.join(); //kills off the thread, stops it
@@ -110,28 +110,49 @@ public SnakeGame() {
 	
 	
 	public void tick() {
-		
-		if(snake.size() == 0) {
-			b = new Body(x, y, 10);
+		 
+		if(snake.isEmpty()) { //makes sure there's always a snake on the screen (base)
+			b = new Body(x, y, 15);
 			snake.add(b);
 		}
+		
+		
+		
+		
 		ticks++;
-		if(ticks > 100000) { //ticks changes the speed
+		if(ticks > 111000) { //ticks changes the speed
 			if(right) x++;
 			if(left) x--;
 			if(up) y--;
 			if(down) y++;
 			
-			if(x > 80) {
-				x = 10;
-				
+			if(x > 52) { //boundaries
+				x = 48;
+				snake.clear();
 			}
+			
+			if(x < 3) {
+				x = 5;
+				snake.clear();
+			}
+			
+			if(y > 52) {
+				y = 48;	
+				snake.clear();
+			}
+
+			if(y < 3) {
+				y = 5;	
+				snake.clear();
+			}
+			
+			
 			
 			
 			
 			ticks = 0;
 			
-			b = new Body(x, y, 10);
+			b = new Body(x, y, 15);
 			snake.add(b);
 			
 			if(snake.size() > size) {
@@ -145,16 +166,32 @@ public SnakeGame() {
 			int x = r.nextInt(40);
 			int y = r.nextInt(40);
 			
-			apple = new Apple(x, y, 10);
+			apple = new Apple(x, y, 15);
 			apples.add(apple);
 		}
+		
+		for(int i = 0; i < apples.size(); i++) {
+			if(x == apples.get(i).getx() && y == apples.get(i).gety()) {
+				size++;
+				apples.remove(i);
+				i++;
+			}
+		}
+		
+		
+		
 		if(first == false) {
 			menu.paint();
 			Image splash = new ImageIcon("IMG_3064").getImage();
 			
 		}
 		
+		
+		
 	}
+		
+		
+	
 
 	
 	
@@ -193,14 +230,14 @@ public SnakeGame() {
 		
 		
 		
-		for(int i = 0; i < WIDTH/10; i++) {
-			g.drawLine(i  * 10,  0,i * 10  , HEIGHT);
+		for(int i = 0; i < WIDTH/15; i++) {
+			g.drawLine(i  * 15,  0,i * 15  , HEIGHT);
 			
 		}
 		
 		
-		for(int i = 0; i < HEIGHT/10; i++) {
-			g.drawLine(i * 10,  0, HEIGHT , i*10);
+		for(int i = 0; i < HEIGHT/15; i++) {
+			g.drawLine(i * 15,  0, HEIGHT , i*15);
 			
 		}
 		for(int i = 0; i < snake.size(); i++) {
@@ -212,6 +249,7 @@ public SnakeGame() {
 			apples.get(i).draw(g);
 		}
 		first = false;
+		
 		
 		
 	}
@@ -313,6 +351,14 @@ public SnakeGame() {
 
 
 
+	public int getX() {
+		return x;
+	}
+	
+	public int getY() {
+		return y;
+	}
+	
 	
 	
 	

@@ -18,5 +18,15 @@ public class Apple {
 		g.setColor(Color.RED);
 		g.fillRect(x *width, y*height, width, height);
 	}
+
+	public int getx() {
+		// TODO Auto-generated method stub
+		return x;
+	}
+	
+	public int gety() {
+		// TODO Auto-generated method stub
+		return y;
+	}
 }
 

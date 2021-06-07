@@ -1,5 +1,7 @@
 import java.awt.Canvas;
 
+
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -30,13 +32,14 @@ public class SnakeGame extends Canvas implements Runnable, KeyListener{
 	 * 
 	 */
 	private Thread thread; //how the entire game is going to run within this thread
-	private Body b;
+	private Body b, b2;
 	private ArrayList<Body> snake;
+	
 	
 	private int x = 15, y = 15, size = 5;
 	
 	private int ticks = 0; //game runs
-	
+	private Graphics globalGraphics;
 	private boolean running = false;
 	private boolean right = false, left = false, up = false, down = false;
 	private boolean first = false;
@@ -122,7 +125,12 @@ public SnakeGame() {
 	
 	
 	public void tick() {
-		 
+		
+		//if(stop) {
+		//	return;
+		//}
+	
+		
 		if(snake.isEmpty()) { //makes sure there's always a snake on the screen (base)
 			b = new Body(x, y, 15);
 			snake.add(b);
@@ -132,29 +140,32 @@ public SnakeGame() {
 		
 		
 		ticks++;
-		if(ticks > 10000) { //ticks changes the speed
+		if(ticks > 100000) { //ticks changes the speed
 			if(right) x++;
 			if(left) x--;
 			if(up) y--;
 			if(down) y++;
 			
-			if(x > 52) { //boundaries
-				stop();
+			if(x > 55) { //boundaries
+				x = 15;
 				
 			}
 			
-			if(x < 1) {
-				stop();
+			if(x < -5) {
+		
+				x=15;
 				
 			}
 			
-			if(y > 52) {
-				stop();
+			if(y > 55) {
+			
+				y=15;
 				
 			}
 
-			if(y < 1) {
-				stop();
+			if(y < -5) {
+			
+				y=15;
 				
 			}
 			
@@ -166,6 +177,7 @@ public SnakeGame() {
 			
 			b = new Body(x, y, 15);
 			snake.add(b);
+			
 			
 			if(snake.size() > size) {
 				snake.remove(0);
@@ -230,8 +242,13 @@ public SnakeGame() {
 		
 	}
 	
+	
+	
 	@Override
 	public void paint(Graphics g) {
+		
+		
+		
 		
 		if(running) {
 		Image splash = new ImageIcon("IMG_3064").getImage();
@@ -364,6 +381,7 @@ public SnakeGame() {
 				
 			}
 		}
+		
 			
 	}
 

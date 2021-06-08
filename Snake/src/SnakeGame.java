@@ -146,30 +146,40 @@ public SnakeGame() {
 			if(up) y--;
 			if(down) y++;
 			
-			if(x > 55) { //boundaries
-				x = 15;
+			for(int j = 0; j < snake.size(); j++) {
+				
+			
+			if(snake.get(j).getX() > 55) { //boundaries
+				size = 0;
+			
+			
 				
 			}
 			
-			if(x < -5) {
-		
-				x=15;
+			if(snake.get(j).getX() < -5) {
+				size = 0;
+				
+				
 				
 			}
 			
-			if(y > 55) {
-			
-				y=15;
+			if(snake.get(j).getY() > 55) {
+				
+				
+				size = 0;
+				
 				
 			}
 
-			if(y < -5) {
-			
-				y=15;
+			if(snake.get(j).getY() < -5) {
+				
+				size = 0;
+				
+				
 				
 			}
-			
-			
+			j++;
+			}
 			
 			
 			
@@ -194,12 +204,28 @@ public SnakeGame() {
 			apples.add(apple);
 		}
 		
+		if(snake.size() == 0) {
+			x= 15;
+			y= 15;
+			
+			snake.add(b);
+			
+			
+		
+		}
+		
 		for(int i = 0; i < apples.size(); i++) {
 			if(x == apples.get(i).getx() && y == apples.get(i).gety()) {
-				size+=3;
+				size+=1;
 				apples.remove(i);
 				i++;
 			}
+			
+			/*for(int i2 = 0; i2 < snake.size(); i++) {
+				if(x > 55 || x < -5 || y < -5 || y >55) {
+					snake.remove(i);
+					i++;
+				}*/
 		}
 		
 		
@@ -211,10 +237,10 @@ public SnakeGame() {
 			Image splash = new ImageIcon("IMG_3064").getImage();
 			
 		}
-		
-		
-		
 	}
+		
+		
+	
 	
  		
 	
@@ -274,6 +300,7 @@ public SnakeGame() {
 		}
 		for(int i = 0; i < snake.size(); i++) {
 			snake.get(i).draw(g);
+			
 		}
 		
 		
@@ -284,6 +311,11 @@ public SnakeGame() {
 		}
 		else {
 			gameOver(g);
+		}
+		
+		if(thread == null) {
+			thread = new Thread(this);
+			thread.start();
 		}
 		
 		

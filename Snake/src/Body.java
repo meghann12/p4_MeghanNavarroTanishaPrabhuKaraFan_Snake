@@ -22,6 +22,7 @@ public class Body {
 		g.setColor(Color.PINK);
 		g.fillRect(x*width, y*height, width, height);
 		
+		
 	}
 //testing adding comment
 	public int getX() {

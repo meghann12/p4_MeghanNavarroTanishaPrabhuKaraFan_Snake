@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Timer;
 
+import javax.print.DocFlavor.URL;
 import javax.swing.ImageIcon;
 
 import java.util.Random;
@@ -34,7 +36,7 @@ public class SnakeGame extends Canvas implements Runnable, KeyListener{
 	private Thread thread; //how the entire game is going to run within this thread
 	private Body b, b2;
 	private ArrayList<Body> snake;
-	
+	private boolean isInMenu = true;
 	
 	private int x = 15, y = 15, size = 5;
 	
@@ -150,21 +152,21 @@ public SnakeGame() {
 				
 			
 			if(snake.get(j).getX() > 55) { //boundaries
-				size = 0;
+				x = 15;
 			
 			
 				
 			}
 			
 			if(snake.get(j).getX() < -5) {
-				size = 0;
+				x = 15;
 				
 				
 				
 			}
 			
 			if(snake.get(j).getY() > 55) {
-				
+				y = 15;
 				
 				size = 0;
 				
@@ -172,7 +174,7 @@ public SnakeGame() {
 			}
 
 			if(snake.get(j).getY() < -5) {
-				
+				y = 15;
 				size = 0;
 				
 				
@@ -234,7 +236,7 @@ public SnakeGame() {
 		
 		if(first == false) {
 			menu.paint();
-			Image splash = new ImageIcon("IMG_3064").getImage();
+			Image splash = new ImageIcon("SplashScreen.png").getImage();
 			
 		}
 	}
@@ -268,55 +270,70 @@ public SnakeGame() {
 		
 	}
 	
-	
+	public void DrawMenu(Graphics g) {
+		Image menuImage = null;
+		try {
+			java.net.URL imagePath = SnakeGame.class.getResource("SplashScreen.png");
+			menuImage = Toolkit.getDefaultToolkit().getImage(imagePath);
+		}
+		catch(Exception e){
+			//image does not exist
+			e.printStackTrace();
+		}
+		g.drawImage(menuImage, 0, 0, 800, 800, this);
+	}
 	
 	@Override
 	public void paint(Graphics g) {
 		
-		
-		
-		
-		if(running) {
-		Image splash = new ImageIcon("IMG_3064").getImage();
-		g.drawImage(splash, 0, 0, this);
-		
-		g.clearRect(0, 0, WIDTH, HEIGHT);
-		
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, WIDTH, HEIGHT);
-		
-		
-		
-		
-		for(int i = 0; i < WIDTH/15; i++) {
-			g.drawLine(i  * 15,  0,i * 15  , HEIGHT);
-			
-		}
-		
-		
-		for(int i = 0; i < HEIGHT/15; i++) {
-			g.drawLine(i * 15,  0, HEIGHT , i*15);
-			
-		}
-		for(int i = 0; i < snake.size(); i++) {
-			snake.get(i).draw(g);
-			
-		}
-		
-		
-		for(int i = 0; i < apples.size(); i++) {
-			apples.get(i).draw(g);
-		}
-		first = false;
+		if(isInMenu) {
+			DrawMenu(g);
 		}
 		else {
-			gameOver(g);
+			if(running) {
+				Image splash = new ImageIcon("SplashScreen.png").getImage();
+				g.drawImage(splash, 0, 0, this);
+				
+				g.clearRect(0, 0, WIDTH, HEIGHT);
+				
+				g.setColor(Color.BLACK);
+				g.fillRect(0, 0, WIDTH, HEIGHT);
+				
+				
+				
+				
+				for(int i = 0; i < WIDTH/15; i++) {
+					g.drawLine(i  * 15,  0,i * 15  , HEIGHT);
+					
+				}
+				
+				
+				for(int i = 0; i < HEIGHT/15; i++) {
+					g.drawLine(i * 15,  0, HEIGHT , i*15);
+					
+				}
+				for(int i = 0; i < snake.size(); i++) {
+					snake.get(i).draw(g);
+					
+				}
+				
+				
+				for(int i = 0; i < apples.size(); i++) {
+					apples.get(i).draw(g);
+				}
+				first = false;
+				}
+				else {
+					gameOver(g);
+				}
+				
+				if(thread == null) {
+					thread = new Thread(this);
+					thread.start();
+				}
 		}
 		
-		if(thread == null) {
-			thread = new Thread(this);
-			thread.start();
-		}
+
 		
 		
 	}
@@ -380,6 +397,12 @@ public SnakeGame() {
 				down = true;
 				right = false;
 				first = true;
+			}
+			if(key == KeyEvent.VK_ENTER) {
+				if(isInMenu) {
+					isInMenu = false;
+					repaint();
+				}
 			}
 		}catch(Exception e2) {
 			int key = e.getKeyCode();
@@ -447,4 +470,3 @@ public SnakeGame() {
 	}
 	
 }
-//Java Programming: Let's Build a Game #2 RealTutsGML

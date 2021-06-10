@@ -26,9 +26,8 @@ public class Runner extends Canvas{
 	SplashScreen menu = new SplashScreen();
 	
 	private static final long serialVersionUID = 4024075373907849815L;
-	
+	Music crunch = new Music("crunch.wav",false);
 	public Runner(int width, int height, String title, SnakeGame game) {
-		
 		
 		
 		JFrame frame = new JFrame(title);
@@ -48,7 +47,12 @@ public class Runner extends Canvas{
 		//sets frame to visible to we can see it
 		frame.setVisible(true);
 		//runs our game's start method
+		
 		game.start();
+		
+		menu.paint();
+		
+		
 	
 	}
 	
